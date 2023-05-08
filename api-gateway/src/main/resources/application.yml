@@ -1,10 +1,13 @@
+server:
+  port: 9010
 spring:
   application:
-    name: FILTER-SERVICE
-  data:
-    mongodb:
-      database: filterdb-t2
-      uri: mongodb://localhost:27017
+    name: api-gateway
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
 eureka:
   client:
     fetch-registry: true
@@ -14,5 +17,3 @@ eureka:
   instance:
     instance-id: ${spring.application.name}:${instanceId:${random.value}}
     prefer-ip-address: true
-server:
-  port: 0
