@@ -1,7 +1,7 @@
 package com.kodlama.io.inventoryservice.business.concretes;
 
-import com.kodlama.io.commonpackage.events.CarCreatedEvent;
-import com.kodlama.io.commonpackage.events.CarDeletedEvent;
+import com.kodlama.io.commonpackage.events.inventory.CarCreatedEvent;
+import com.kodlama.io.commonpackage.events.inventory.CarDeletedEvent;
 import com.kodlama.io.commonpackage.utils.mappers.ModelMapperService;
 import com.kodlama.io.inventoryservice.business.abstracts.CarService;
 import com.kodlama.io.inventoryservice.business.dto.requests.create.CreateCarRequest;
@@ -78,6 +78,17 @@ public class CarManager implements CarService {
         rules.checkIfCarExists(id);
         repository.deleteById(id);
         sendKafkaCarDeletedEvent(id);
+    }
+
+    @Override
+    public void checkIfCarAvailable(UUID id) {
+        rules.checkIfCarExists(id);
+        rules.checkCarAvailability(id);
+    }
+
+    @Override
+    public void changeStateByCarId(State state, UUID id) {
+        repository.changeStateByCarId(state, id);
     }
 
     private void sendKafkaCarCreatedEvent(Car createdCar) {

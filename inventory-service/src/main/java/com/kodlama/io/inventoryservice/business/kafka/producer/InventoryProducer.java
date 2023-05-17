@@ -1,8 +1,8 @@
 package com.kodlama.io.inventoryservice.business.kafka.producer;
 
-import com.kodlama.io.commonpackage.events.BrandDeletedEvent;
-import com.kodlama.io.commonpackage.events.CarCreatedEvent;
-import com.kodlama.io.commonpackage.events.CarDeletedEvent;
+import com.kodlama.io.commonpackage.events.inventory.BrandDeletedEvent;
+import com.kodlama.io.commonpackage.events.inventory.CarCreatedEvent;
+import com.kodlama.io.commonpackage.events.inventory.CarDeletedEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.core.KafkaTemplate;

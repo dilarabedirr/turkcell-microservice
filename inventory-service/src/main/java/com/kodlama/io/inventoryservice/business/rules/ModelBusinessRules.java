@@ -1,5 +1,6 @@
 package com.kodlama.io.inventoryservice.business.rules;
 
+import com.kodlama.io.commonpackage.utils.exceptions.BusinessException;
 import com.kodlama.io.inventoryservice.repository.BrandRepository;
 import com.kodlama.io.inventoryservice.repository.ModelRepository;
 import lombok.AllArgsConstructor;
@@ -14,8 +15,7 @@ public class ModelBusinessRules {
 
     public void checkIfModelExists(UUID id) {
         if (!repository.existsById(id)) {
-            // TODO: BusinessException
-            throw new RuntimeException("MODEL_NOT_EXISTS");
+            throw new BusinessException("MODEL_NOT_EXISTS");
         }
     }
 }

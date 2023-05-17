@@ -6,6 +6,7 @@ import com.kodlama.io.inventoryservice.business.dto.responses.create.CreateCarRe
 import com.kodlama.io.inventoryservice.business.dto.responses.get.car.GetAllCarsResponse;
 import com.kodlama.io.inventoryservice.business.dto.responses.get.car.GetCarResponse;
 import com.kodlama.io.inventoryservice.business.dto.responses.update.UpdateCarResponse;
+import com.kodlama.io.inventoryservice.entities.enums.State;
 
 import java.util.List;
 import java.util.UUID;
@@ -16,4 +17,6 @@ public interface CarService {
     CreateCarResponse add(CreateCarRequest request);
     UpdateCarResponse update(UUID id, UpdateCarRequest request);
     void delete(UUID id);
+    void checkIfCarAvailable(UUID id);
+    void changeStateByCarId(State state, UUID id);
 }

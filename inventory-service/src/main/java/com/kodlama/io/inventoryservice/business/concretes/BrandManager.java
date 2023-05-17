@@ -1,6 +1,6 @@
 package com.kodlama.io.inventoryservice.business.concretes;
 
-import com.kodlama.io.commonpackage.events.BrandDeletedEvent;
+import com.kodlama.io.commonpackage.events.inventory.BrandDeletedEvent;
 import com.kodlama.io.commonpackage.utils.mappers.ModelMapperService;
 import com.kodlama.io.inventoryservice.business.abstracts.BrandService;
 import com.kodlama.io.inventoryservice.business.dto.requests.create.CreateBrandRequest;

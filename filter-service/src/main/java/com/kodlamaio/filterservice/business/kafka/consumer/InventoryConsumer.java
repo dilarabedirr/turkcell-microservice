@@ -1,8 +1,8 @@
 package com.kodlamaio.filterservice.business.kafka.consumer;
 
-import com.kodlama.io.commonpackage.events.BrandDeletedEvent;
-import com.kodlama.io.commonpackage.events.CarCreatedEvent;
-import com.kodlama.io.commonpackage.events.CarDeletedEvent;
+import com.kodlama.io.commonpackage.events.inventory.BrandDeletedEvent;
+import com.kodlama.io.commonpackage.events.inventory.CarCreatedEvent;
+import com.kodlama.io.commonpackage.events.inventory.CarDeletedEvent;
 import com.kodlama.io.commonpackage.utils.mappers.ModelMapperService;
 import com.kodlamaio.filterservice.business.abstracts.FilterService;
 import com.kodlamaio.filterservice.entities.Filter;

@@ -7,7 +7,7 @@ import com.kodlama.io.inventoryservice.business.dto.responses.create.CreateBrand
 import com.kodlama.io.inventoryservice.business.dto.responses.get.brand.GetAllBrandsResponse;
 import com.kodlama.io.inventoryservice.business.dto.responses.get.brand.GetBrandResponse;
 import com.kodlama.io.inventoryservice.business.dto.responses.update.UpdateBrandResponse;
-import jakarta.validation.Valid;
+
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;

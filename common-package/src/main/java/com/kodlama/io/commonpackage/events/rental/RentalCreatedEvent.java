@@ -1,4 +1,4 @@
-package com.kodlama.io.commonpackage.events;
+package com.kodlama.io.commonpackage.events.rental;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,6 +11,6 @@ import java.util.UUID;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class BrandDeletedEvent {
-    private UUID brandId;
+public class RentalCreatedEvent {
+    private UUID carId;
 }
