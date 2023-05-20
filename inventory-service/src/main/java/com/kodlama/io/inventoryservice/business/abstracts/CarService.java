@@ -1,5 +1,6 @@
 package com.kodlama.io.inventoryservice.business.abstracts;
 
+import com.kodlama.io.commonpackage.utils.dto.ClientResponse;
 import com.kodlama.io.inventoryservice.business.dto.requests.create.CreateCarRequest;
 import com.kodlama.io.inventoryservice.business.dto.requests.update.UpdateCarRequest;
 import com.kodlama.io.inventoryservice.business.dto.responses.create.CreateCarResponse;
@@ -17,6 +18,6 @@ public interface CarService {
     CreateCarResponse add(CreateCarRequest request);
     UpdateCarResponse update(UUID id, UpdateCarRequest request);
     void delete(UUID id);
-    void checkIfCarAvailable(UUID id);
+    ClientResponse checkIfCarAvailable(UUID id);
     void changeStateByCarId(State state, UUID id);
 }

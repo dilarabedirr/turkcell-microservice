@@ -2,6 +2,9 @@ package com.kodlama.io.inventoryservice.business.concretes;
 
 import com.kodlama.io.commonpackage.events.inventory.CarCreatedEvent;
 import com.kodlama.io.commonpackage.events.inventory.CarDeletedEvent;
+import com.kodlama.io.commonpackage.kafka.producer.KafkaProducer;
+import com.kodlama.io.commonpackage.utils.dto.ClientResponse;
+import com.kodlama.io.commonpackage.utils.exceptions.BusinessException;
 import com.kodlama.io.commonpackage.utils.mappers.ModelMapperService;
 import com.kodlama.io.inventoryservice.business.abstracts.CarService;
 import com.kodlama.io.inventoryservice.business.dto.requests.create.CreateCarRequest;
@@ -10,7 +13,6 @@ import com.kodlama.io.inventoryservice.business.dto.responses.create.CreateCarRe
 import com.kodlama.io.inventoryservice.business.dto.responses.get.car.GetAllCarsResponse;
 import com.kodlama.io.inventoryservice.business.dto.responses.get.car.GetCarResponse;
 import com.kodlama.io.inventoryservice.business.dto.responses.update.UpdateCarResponse;
-import com.kodlama.io.inventoryservice.business.kafka.producer.InventoryProducer;
 import com.kodlama.io.inventoryservice.business.rules.CarBusinessRules;
 import com.kodlama.io.inventoryservice.entities.Car;
 import com.kodlama.io.inventoryservice.entities.enums.State;
@@ -28,7 +30,7 @@ public class CarManager implements CarService {
     private final CarRepository repository;
     private final ModelMapperService mapper;
     private final CarBusinessRules rules;
-    private final InventoryProducer producer;
+    private final KafkaProducer producer;
 
     @Override
     public List<GetAllCarsResponse> getAll() {
@@ -81,9 +83,10 @@ public class CarManager implements CarService {
     }
 
     @Override
-    public void checkIfCarAvailable(UUID id) {
-        rules.checkIfCarExists(id);
-        rules.checkCarAvailability(id);
+    public ClientResponse checkIfCarAvailable(UUID id) {
+        var response = new ClientResponse();
+        validateCarAvailability(id, response);
+        return response;
     }
 
     @Override
@@ -93,10 +96,21 @@ public class CarManager implements CarService {
 
     private void sendKafkaCarCreatedEvent(Car createdCar) {
         var event = mapper.forResponse().map(createdCar, CarCreatedEvent.class);
-        producer.sendMessage(event);
+        producer.sendMessage(event, "car-created");
     }
 
     private void sendKafkaCarDeletedEvent(UUID id) {
-        producer.sendMessage(new CarDeletedEvent(id));
+        producer.sendMessage(new CarDeletedEvent(id), "car-deleted");
+    }
+
+    private void validateCarAvailability(UUID id, ClientResponse response) {
+        try {
+            rules.checkIfCarExists(id);
+            rules.checkCarAvailability(id);
+            response.setSuccess(true);
+        } catch (BusinessException exception) {
+            response.setSuccess(false);
+            response.setMessage(exception.getMessage());
+        }
     }
 }
