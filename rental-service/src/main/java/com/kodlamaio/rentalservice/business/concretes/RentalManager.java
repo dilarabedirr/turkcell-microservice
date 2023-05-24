@@ -1,11 +1,9 @@
 package com.kodlamaio.rentalservice.business.concretes;
 
-
 import com.kodlama.io.commonpackage.events.rental.RentalCreatedEvent;
 import com.kodlama.io.commonpackage.events.rental.RentalDeletedEvent;
 import com.kodlama.io.commonpackage.kafka.producer.KafkaProducer;
 import com.kodlama.io.commonpackage.utils.mappers.ModelMapperService;
-import com.kodlamaio.rentalservice.api.clients.CarClient;
 import com.kodlamaio.rentalservice.business.abstracts.RentalService;
 import com.kodlamaio.rentalservice.business.dto.requests.CreateRentalRequest;
 import com.kodlamaio.rentalservice.business.dto.requests.UpdateRentalRequest;
