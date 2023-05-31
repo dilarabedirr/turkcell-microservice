@@ -15,6 +15,13 @@ services:
       - "27017:27017"
     volumes:
       - mongodb_data:/data/db
+  mongoInvoice:
+    container_name: turkcell2-invoicedb
+    image: mongo
+    ports:
+      - "27018:27018"
+    volumes:
+      - mongoInvoice_data:/data/db
 
   inventorydb:
     container_name: inventorydb-t2
@@ -32,3 +39,4 @@ volumes:
   kafka_data:
   mongodb_data:
   inventorydb:
+  mongoInvoice_data:

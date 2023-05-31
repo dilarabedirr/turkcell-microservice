@@ -1,10 +1,13 @@
 package com.kodlamaio.rentalservice.business.concretes;
 
+import com.kodlama.io.commonpackage.events.invoice.InvoiceCreatedEvent;
 import com.kodlama.io.commonpackage.events.rental.RentalCreatedEvent;
 import com.kodlama.io.commonpackage.events.rental.RentalDeletedEvent;
 import com.kodlama.io.commonpackage.kafka.producer.KafkaProducer;
 import com.kodlama.io.commonpackage.utils.dto.CreateRentalPaymentRequest;
+import com.kodlama.io.commonpackage.utils.dto.GetCarResponse;
 import com.kodlama.io.commonpackage.utils.mappers.ModelMapperService;
+import com.kodlamaio.rentalservice.api.clients.CarClient;
 import com.kodlamaio.rentalservice.business.abstracts.RentalService;
 import com.kodlamaio.rentalservice.business.dto.requests.CreateRentalRequest;
 import com.kodlamaio.rentalservice.business.dto.requests.UpdateRentalRequest;
@@ -29,6 +32,7 @@ public class RentalManager implements RentalService {
     private final ModelMapperService mapper;
     private final RentalBusinessRules rules;
     private final KafkaProducer producer;
+    private final CarClient carClient;
 
     @Override
     public List<GetAllRentalsResponse> getAll() {
@@ -100,5 +104,21 @@ public class RentalManager implements RentalService {
     private void sendKafkaRentalDeletedEvent(UUID id) {
         var carId=repository.findById(id).orElseThrow().getCarId();
         producer.sendMessage(new RentalDeletedEvent(carId), "rental-deleted");
+    }
+
+    private void sendKafkaInvoiceCreatedEvent(InvoiceCreatedEvent event){
+        producer.sendMessage(event,"invoice-created");
+    }
+
+    private void mergeRequest(CreateRentalRequest request,InvoiceCreatedEvent event,Rental rental){
+        GetCarResponse response = carClient.getById(request.getCarId());
+        event.setBrandName(response.getBrandName());
+        event.setPlate(response.getPlate());
+        event.setModelName(response.getModelName());
+        event.setRentedAt(rental.getRentedAt());
+        event.setTotalPrice(rental.getTotalPrice());
+        event.setDailyPrice(rental.getDailyPrice());
+        event.setCardHolder(request.getPaymentRequest().getCardHolder());
+        event.setRentedForDays(rental.getRentedForDays());
     }
 }
