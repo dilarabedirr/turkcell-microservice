@@ -20,15 +20,15 @@ public class MaintenanceBusinessRules {
         }
     }
 
-    public void checkIfMaintenanceAvailable(UUID id) {
-        if (repository.findById(id).orElseThrow().isCompleted()) {
-            throw new BusinessException("MAINTENANCE_ENDED_ALREADY");
+    public void checkIfCarIsNotUnderMaintenance(UUID carId) {
+        if (!repository.existsByCarIdAndIsCompletedIsFalse(carId)) {
+            throw new BusinessException("CAR_IS_NOT_UNDER_MAINTENANCE");
         }
     }
 
     public void ensureCarIsAvailable(UUID carId) {
-        var response = carClient.checkIfCarIsAvailable(carId);
-        if (!response.isSuccess()) {
+        var response = carClient.checkIfCarAvailable(carId);
+        if (!response.isSuccess()){
             throw new BusinessException(response.getMessage());
         }
     }

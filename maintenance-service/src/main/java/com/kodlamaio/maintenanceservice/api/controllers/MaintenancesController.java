@@ -48,8 +48,8 @@ public class MaintenancesController {
         service.delete(id);
     }
 
-    @PutMapping("/returnMaintenance/{id}")
-    public UpdateMaintenanceResponse complete(@PathVariable UUID id) {
-        return service.complete(id);
+    @PutMapping("/return")
+    public UpdateMaintenanceResponse complete(@RequestParam UUID carId) {
+        return service.complete(carId);
     }
 }
