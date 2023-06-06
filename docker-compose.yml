@@ -8,6 +8,17 @@ services:
       - "9092:9092"
     volumes:
       - kafka_data:/opt/kafka/kafka-logs
+  keycloak:
+    image: quay.io/keycloak/keycloak:latest
+    container_name: keycloak-t2
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+    ports:
+      - "8080:8080"
+    command: start-dev
+    volumes:
+      - .:/opt/jboss/keycloak/imports
   mongodb:
     container_name: turkcell2-filterdb
     image: mongo
@@ -19,24 +30,10 @@ services:
     container_name: turkcell2-invoicedb
     image: mongo
     ports:
-      - "27018:27018"
+      - "27018:27017"
     volumes:
       - mongoInvoice_data:/data/db
-
-  inventorydb:
-    container_name: inventorydb-t2
-    image: mysql
-    ports:
-      - "3306:3306"
-    environment:
-      - MYSQL_ROOT_PASSWORD=12345
-      - MYSQL_TCP_PORT=3306
-      - VIRTUAL_PORT=3306
-    volumes:
-      - inventorydb:/data/db
-
 volumes:
   kafka_data:
   mongodb_data:
-  inventorydb:
   mongoInvoice_data:
